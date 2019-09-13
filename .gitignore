@@ -2,3 +2,4 @@
 servant-para-todes.cabal
 *~
 .idea/
+data/.~lock*

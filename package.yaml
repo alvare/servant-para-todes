@@ -22,8 +22,13 @@ description:         Please see the README on GitHub at <https://github.com/Gith
 dependencies:
 - base >= 4.7 && < 5
 - servant
+- servant-server
+- wai
 - aeson
 - text
+- bytestring
+- cassava
+- vector
 
 library:
   source-dirs: src
@@ -38,6 +43,7 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - servant-para-todes
+    - warp
 
 tests:
   servant-para-todes-test:

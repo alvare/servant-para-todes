@@ -1,6 +1,8 @@
 module Main where
 
-import Lib
+import Network.Wai.Handler.Warp (run)
+
+import Server
 
 main :: IO ()
-main = serve
+main = run 9001 app
