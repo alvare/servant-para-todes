@@ -1,13 +1,16 @@
 {-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE RecordWildCards #-}
 
 module Server
  ( app
+ , api
  ) where
 
 import Control.Monad.IO.Class
 import Network.Wai (Application)
 import Servant
-import Data.List   (find)
+import Data.Ord    (Down(..))
+import Data.List   (sortOn, sort, find)
 
 import Api
 import Data
@@ -22,16 +25,22 @@ api = Proxy
 
 
 server :: Server API
-server = releaseApi :<|> girlsApi
+server = releaseApi :<|> spicesApi
   where
     releaseApi = getReleases :<|> getRelease
-    girlsApi = getGirls :<|> getGirl
+    spicesApi = getSpices :<|> getSpice :<|> addSpice
 
-getReleases :: Handler [Release]
-getReleases = do
+
+getReleases :: Maybe Sort -> Handler [Release]
+getReleases maybeSort = do
   releases <- liftIO allReleases
-  pure releases
-
+  pure $ sortReleases releases
+ where
+  sortReleases releases = case maybeSort of
+    Nothing -> releases
+    Just sort' -> case sort' of
+      ASC -> sortOn country releases
+      DES -> sortOn (Down . country) releases
 
 getRelease :: Int -> Handler Release
 getRelease id' = do
@@ -39,21 +48,33 @@ getRelease id' = do
   case find byId releases of
     Nothing -> throwError err404
     Just release -> pure release
-  where
-    byId = (== id') . (pk :: Release -> Int)
+ where
+  byId = (== id') . (pk :: Release -> Int)
 
 
-getGirls :: Handler [SpiceGirl]
-getGirls = do
-  girls <- liftIO allGirls
-  pure girls
+addSpice :: NewSpiceGirl -> Handler SpiceGirl
+addSpice NewSpiceGirl {..} = do
+  spices <- liftIO allSpices
+  let pk = newestPk spices + 1
+  let newSpice = SpiceGirl {..}
+  let spices' = spices <> [newSpice]
+  liftIO $ saveSpices spices'
+  pure newSpice
+ where
+  newestPk = head . reverse . sort . map (pk :: SpiceGirl -> Int)
 
 
-getGirl :: Int -> Handler SpiceGirl
-getGirl id' = do
-  girls <- liftIO allGirls
-  case find byId girls of
+getSpices :: Handler [SpiceGirl]
+getSpices = do
+  spices <- liftIO allSpices
+  pure spices
+
+
+getSpice :: Int -> Handler SpiceGirl
+getSpice id' = do
+  spices <- liftIO allSpices
+  case find byId spices of
     Nothing -> throwError err404
-    Just girl -> pure girl
-  where
-    byId = (== id') . (pk :: SpiceGirl -> Int)
+    Just spice -> pure spice
+ where
+  byId = (== id') . (pk :: SpiceGirl -> Int)

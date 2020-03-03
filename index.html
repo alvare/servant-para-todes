@@ -1,0 +1,24 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3.12.1/swagger-ui.css">
+    <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-standalone-preset.js"></script>
+    <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+</head>
+<body>
+    <div id="swagger-ui">
+    </div>
+    <script>
+    const SPEC = {"swagger":"2.0","info":{"version":"","title":""},"paths":{"/api/releases":{"get":{"produces":["application/json;charset=utf-8"],"parameters":[{"required":false,"in":"query","name":"sort","type":"string","enum":["ASC","DES"]}],"responses":{"400":{"description":"Invalid `sort`"},"200":{"schema":{"items":{"$ref":"#/definitions/Release"},"type":"array"},"description":""}}}},"/api/releases/{id}":{"get":{"produces":["application/json;charset=utf-8"],"parameters":[{"maximum":9223372036854775807,"minimum":-9223372036854775808,"required":true,"in":"path","name":"id","type":"integer"}],"responses":{"404":{"description":"`id` not found"},"200":{"schema":{"$ref":"#/definitions/Release"},"description":""}}}},"/api/girls":{"get":{"produces":["application/json;charset=utf-8"],"responses":{"200":{"schema":{"items":{"$ref":"#/definitions/SpiceGirl"},"type":"array"},"description":""}}},"post":{"consumes":["application/json;charset=utf-8"],"produces":["application/json;charset=utf-8"],"parameters":[{"required":true,"schema":{"$ref":"#/definitions/NewSpiceGirl"},"in":"body","name":"body"}],"responses":{"400":{"description":"Invalid `body`"},"200":{"schema":{"$ref":"#/definitions/SpiceGirl"},"description":""}}}},"/api/girls/{id}":{"get":{"produces":["application/json;charset=utf-8"],"parameters":[{"maximum":9223372036854775807,"minimum":-9223372036854775808,"required":true,"in":"path","name":"id","type":"integer"}],"responses":{"404":{"description":"`id` not found"},"200":{"schema":{"$ref":"#/definitions/SpiceGirl"},"description":""}}}}},"definitions":{"Release":{"required":["pk","title","year","label","cat","country","format"],"properties":{"pk":{"maximum":9223372036854775807,"minimum":-9223372036854775808,"type":"integer"},"title":{"type":"string"},"year":{"maximum":9223372036854775807,"minimum":-9223372036854775808,"type":"integer"},"label":{"type":"string"},"cat":{"type":"string"},"country":{"type":"string"},"format":{"$ref":"#/definitions/Format"}},"type":"object"},"Format":{"type":"string","enum":["CD","LP","Cassette","VCD"]},"SpiceGirl":{"required":["pk","name","alias","ranking"],"properties":{"pk":{"maximum":9223372036854775807,"minimum":-9223372036854775808,"type":"integer"},"name":{"type":"string"},"alias":{"type":"string"},"ranking":{"maximum":9223372036854775807,"minimum":-9223372036854775808,"type":"integer"}},"type":"object"},"NewSpiceGirl":{"required":["name","alias","ranking"],"properties":{"name":{"type":"string"},"alias":{"type":"string"},"ranking":{"maximum":9223372036854775807,"minimum":-9223372036854775808,"type":"integer"}},"type":"object"}}};
+    const ui = SwaggerUIBundle({
+        spec: SPEC,
+        dom_id: '#swagger-ui',
+        presets: [
+            SwaggerUIBundle.presets.apis,
+            SwaggerUIStandalonePreset
+        ],
+        layout: "StandaloneLayout"
+    })
+    </script>
+</body>
+</html>
+

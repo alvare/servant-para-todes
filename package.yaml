@@ -44,6 +44,34 @@ executables:
     dependencies:
     - servant-para-todes
     - warp
+  mock:
+    main:                Mock.hs
+    source-dirs:         mock
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - servant-para-todes
+    - QuickCheck
+    - servant-mock
+    - text
+    - warp
+  swagger:
+    main:                Swagger.hs
+    source-dirs:         swagger
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - servant-para-todes
+    - aeson
+    - neat-interpolation
+    - servant-swagger
+    - swagger2
+    - text
+
 
 tests:
   servant-para-todes-test:

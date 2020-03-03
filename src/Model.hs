@@ -3,9 +3,9 @@
 
 module Model where
 
-import           Data.Aeson   (FromJSON, ToJSON)
-import           Data.Text    (Text)
-import           GHC.Generics (Generic)
+import Data.Aeson   (FromJSON, ToJSON)
+import Data.Text    (Text)
+import GHC.Generics (Generic)
 
 data SpiceGirl = SpiceGirl
   { pk      :: Int

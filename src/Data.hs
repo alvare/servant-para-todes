@@ -25,12 +25,12 @@ instance FromNamedRecord Release
 instance ToNamedRecord Release
 instance DefaultOrdered Release
 
-allGirls :: IO [SpiceGirl]
-allGirls = getAll "girls"
+allSpices :: IO [SpiceGirl]
+allSpices = getAll "spices"
 
 
-saveGirls :: [SpiceGirl] -> IO ()
-saveGirls = saveAll "girls"
+saveSpices :: [SpiceGirl] -> IO ()
+saveSpices = saveAll "spices"
 
 
 allReleases :: IO [Release]
